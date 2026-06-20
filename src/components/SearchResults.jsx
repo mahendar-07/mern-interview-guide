@@ -1,42 +1,46 @@
 import TopicCard from "./TopicCard.jsx";
+import { HelpIcon } from "./Icons.jsx";
 
 export default function SearchResults({ results, searchQuery, darkMode, theme }) {
   const count = results?.length ?? 0;
 
   return (
-    <div style={{ maxWidth: 820, margin: "0 auto" }}>
-      {/* Result count */}
-      <div style={{ display: "flex", alignItems: "center", gap: "0.65rem", marginBottom: "1rem", flexWrap: "wrap" }}>
-        <h2 style={{ fontSize: "1rem", fontWeight: 700, color: theme.textBright, margin: 0 }}>
-          Search results
-        </h2>
-        <span style={{
-          background: count > 0 ? "#6366f122" : "#ef444422",
-          color: count > 0 ? "#818cf8" : "#f87171",
-          fontSize: "0.75rem", fontWeight: 700,
-          padding: "0.18rem 0.6rem", borderRadius: 99,
-        }}>
-          {count} found across all topics
-        </span>
+    <div style={{ maxWidth: 800, margin: "0 auto" }}>
+      <div style={{
+        background: theme.eyebrowTint, border: `1px solid ${theme.eyebrow}33`,
+        color: theme.eyebrow, fontSize: "0.8rem", padding: "0.6rem 0.9rem",
+        borderRadius: 12, marginBottom: "1.4rem",
+        display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem",
+      }}>
+        <span>Searching globally for <strong>"{searchQuery}"</strong> — {count} match{count === 1 ? "" : "es"}</span>
       </div>
 
-      {/* Empty state */}
       {count === 0 ? (
-        <div style={{ textAlign: "center", padding: "3rem 1rem", color: theme.text }}>
-          <div style={{ fontSize: "2.5rem", marginBottom: "0.6rem" }}>🔍</div>
-          <div style={{ fontWeight: 600, color: theme.textBright, marginBottom: "0.3rem" }}>No results found</div>
-          <div style={{ fontSize: "0.88rem" }}>Try a different keyword or browse sections in the sidebar</div>
+        <div style={{
+          background: theme.surfaceMuted, border: `1px solid ${theme.border}`,
+          borderRadius: 16, padding: "3rem 1rem", textAlign: "center",
+        }}>
+          <div style={{ display: "flex", justifyContent: "center", color: theme.textDim, marginBottom: "0.6rem" }}>
+            <HelpIcon />
+          </div>
+          <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: "1rem", color: theme.textBright, marginBottom: "0.3rem" }}>
+            No questions found
+          </div>
+          <div style={{ fontSize: "0.82rem", color: theme.textDim, maxWidth: 320, margin: "0 auto" }}>
+            Adjust your search query or browse sections in the sidebar instead.
+          </div>
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
           {results.map(({ topic, section, guide }, idx) => (
             <TopicCard
               key={idx}
               topic={topic}
-              sectionColor={guide.color}
+              index={idx}
               darkMode={darkMode}
+              theme={theme}
               searchQuery={searchQuery}
-              sourceName={`${guide.label} › ${section.label.replace(/^\d+ — /, "")}`}
+              sourceName={`${guide.label} · ${section.label.replace(/^\d+\s*—\s*/, "")}`}
             />
           ))}
         </div>
