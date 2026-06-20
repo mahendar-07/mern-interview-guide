@@ -1,6 +1,13 @@
 import { useState } from "react";
-import ReactGuide from "./react-interview-guide.jsx";
+import ReactGuide   from "./react-interview-guide.jsx";
 import ExpressGuide from "./express-interview-guide.jsx";
+import MongoGuide   from "./mongodb-interview-guide.jsx";
+
+const tabs = [
+  { id: "react",   label: "⚛️  React.js",   color: "#6366f1" },
+  { id: "express", label: "🚀  Express.js",  color: "#10b981" },
+  { id: "mongo",   label: "🍃  MongoDB",     color: "#16a34a" },
+];
 
 export default function App() {
   const [active, setActive] = useState("react");
@@ -18,10 +25,7 @@ export default function App() {
         top: 0,
         zIndex: 100,
       }}>
-        {[
-          { id: "react",   label: "⚛️  React.js",   color: "#6366f1" },
-          { id: "express", label: "🚀  Express.js",  color: "#10b981" },
-        ].map(tab => (
+        {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActive(tab.id)}
@@ -43,10 +47,11 @@ export default function App() {
         ))}
       </div>
 
-      {/* Guide Content */}
+      {/* Content */}
       <div>
         {active === "react"   && <ReactGuide />}
         {active === "express" && <ExpressGuide />}
+        {active === "mongo"   && <MongoGuide />}
       </div>
     </div>
   );
