@@ -739,7 +739,7 @@ const levelColors = {
   Advanced:     { bg: "#fce7f3", text: "#9d174d" },
 };
 
-export default function NodeGuide() {
+export default function NodeGuide({ searchQuery: searchQueryProp = "", darkMode = true }) {
   const [activeSection, setActiveSection] = useState(0);
   const [openTopics, setOpenTopics]       = useState({});
   const [searchQuery, setSearchQuery]     = useState("");
@@ -761,15 +761,15 @@ export default function NodeGuide() {
   const currentSection  = searchQuery ? null : sections[activeSection];
 
   return (
-    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: "#0f172a", minHeight: "100vh", color: "#e2e8f0", display: "flex", flexDirection: "column" }}>
-      <header style={{ padding: "2rem 1.5rem 1.5rem", borderBottom: "1px solid #1e293b" }}>
+    <div style={{ fontFamily: "'Inter', system-ui, sans-serif", background: darkMode ? "#0f172a" : "#ffffff", minHeight: "100vh", color: darkMode ? "#e2e8f0" : "#1e293b", display: "flex", flexDirection: "column" }}>
+      <header style={{ padding: "2rem 1.5rem 1.5rem", borderBottom: darkMode ? "1px solid #1e293b" : "1px solid #e2e8f0" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
             <span style={{ background: "#f59e0b", color: "#000", fontWeight: 700, fontSize: "0.7rem", padding: "0.2rem 0.6rem", borderRadius: 99, letterSpacing: "0.1em", textTransform: "uppercase" }}>Interview Prep</span>
-            <span style={{ color: "#475569", fontSize: "0.85rem" }}>Basic → Advanced</span>
+            <span style={{ color: darkMode ? "#475569" : "#64748b", fontSize: "0.85rem" }}>Basic → Advanced</span>
           </div>
-          <h1 style={{ fontSize: "1.7rem", fontWeight: 800, margin: 0, color: "#f1f5f9", letterSpacing: "-0.02em" }}>Node.js Interview Guide</h1>
-          <p style={{ margin: "0.4rem 0 1.2rem", color: "#64748b", fontSize: "0.9rem" }}>
+          <h1 style={{ fontSize: "1.7rem", fontWeight: 800, margin: 0, color: darkMode ? "#f1f5f9" : "#0f172a", letterSpacing: "-0.02em" }}>Node.js Interview Guide</h1>
+          <p style={{ margin: "0.4rem 0 1.2rem", color: darkMode ? "#64748b" : "#64748b", fontSize: "0.9rem" }}>
             {sections.length} topics · {sections.reduce((a, s) => a + s.topics.length, 0)} questions — simple definitions + real-world examples
           </p>
           <input
@@ -777,7 +777,7 @@ export default function NodeGuide() {
             placeholder="Search questions..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            style={{ width: "100%", maxWidth: 400, padding: "0.55rem 1rem", borderRadius: 8, border: "1px solid #334155", background: "#1e293b", color: "#e2e8f0", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
+            style={{ width: "100%", maxWidth: 400, padding: "0.55rem 1rem", borderRadius: 8, border: darkMode ? "1px solid #334155" : "1px solid #e2e8f0", background: darkMode ? "#1e293b" : "#f1f5f9", color: darkMode ? "#e2e8f0" : "#1e293b", fontSize: "0.9rem", outline: "none", boxSizing: "border-box" }}
           />
         </div>
       </header>
@@ -804,7 +804,7 @@ export default function NodeGuide() {
             displaySections.map(s => (
               <div key={s.id} style={{ marginBottom: "2rem" }}>
                 <h2 style={{ fontSize: "1rem", fontWeight: 700, color: s.color, marginBottom: "0.75rem" }}>{s.label}</h2>
-                <TopicList topics={s.topics} sectionId={s.id} sectionColor={s.color} openTopics={openTopics} toggleTopic={toggleTopic} />
+                <TopicList topics={s.topics} sectionId={s.id} sectionColor={s.color} openTopics={openTopics} toggleTopic={toggleTopic}   darkMode={darkMode}/>
               </div>
             ))
           ) : currentSection ? (
@@ -812,7 +812,7 @@ export default function NodeGuide() {
               <h2 style={{ fontSize: "1.15rem", fontWeight: 700, color: currentSection.color, marginBottom: "1rem", paddingBottom: "0.5rem", borderBottom: `1px solid ${currentSection.color}33` }}>
                 {currentSection.label}
               </h2>
-              <TopicList topics={currentSection.topics} sectionId={currentSection.id} sectionColor={currentSection.color} openTopics={openTopics} toggleTopic={toggleTopic} />
+              <TopicList topics={currentSection.topics} sectionId={currentSection.id} sectionColor={currentSection.color} openTopics={openTopics} toggleTopic={toggleTopic}   darkMode={darkMode}/>
             </div>
           ) : null}
         </main>
@@ -821,7 +821,7 @@ export default function NodeGuide() {
   );
 }
 
-function TopicList({ topics, sectionId, sectionColor, openTopics, toggleTopic }) {
+function TopicList({ topics, sectionId, sectionColor, openTopics, toggleTopic, darkMode = true }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
       {topics.map((topic, i) => {
@@ -830,16 +830,16 @@ function TopicList({ topics, sectionId, sectionColor, openTopics, toggleTopic })
         const lc     = levelColors[topic.level] || levelColors.Basic;
 
         return (
-          <div key={i} style={{ background: "#1e293b", borderRadius: 10, border: `1px solid ${isOpen ? sectionColor + "55" : "#334155"}`, overflow: "hidden" }}>
+          <div key={i} style={{ background: darkMode ? "#1e293b" : "#f1f5f9", borderRadius: 10, border: `1px solid ${isOpen ? sectionColor + "55" : "#334155"}`, overflow: "hidden" }}>
             <button onClick={() => toggleTopic(sectionId, i)} style={{
               width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between",
               padding: "0.85rem 1.1rem", background: "transparent", border: "none",
-              color: "#f1f5f9", cursor: "pointer", textAlign: "left", gap: "1rem",
+              color: darkMode ? "#f1f5f9" : "#0f172a", cursor: "pointer", textAlign: "left", gap: "1rem",
             }}>
               <span style={{ fontWeight: 600, fontSize: "0.92rem", flex: 1 }}>{topic.title}</span>
               <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", flexShrink: 0 }}>
                 <span style={{ background: lc.bg, color: lc.text, fontSize: "0.68rem", fontWeight: 700, padding: "0.15rem 0.55rem", borderRadius: 99 }}>{topic.level}</span>
-                <span style={{ color: "#64748b", fontSize: "1rem" }}>{isOpen ? "▲" : "▼"}</span>
+                <span style={{ color: darkMode ? "#64748b" : "#64748b", fontSize: "1rem" }}>{isOpen ? "▲" : "▼"}</span>
               </div>
             </button>
 
@@ -858,7 +858,7 @@ function TopicList({ topics, sectionId, sectionColor, openTopics, toggleTopic })
                 )}
 
                 {topic.code && (
-                  <pre style={{ background: "#0f172a", border: "1px solid #334155", borderRadius: 8, padding: "0.9rem 1rem", fontSize: "0.78rem", lineHeight: 1.65, overflowX: "auto", color: "#93c5fd", marginTop: "0.9rem", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                  <pre style={{ background: darkMode ? "#0f172a" : "#ffffff", border: darkMode ? "1px solid #334155" : "1px solid #e2e8f0", borderRadius: 8, padding: "0.9rem 1rem", fontSize: "0.78rem", lineHeight: 1.65, overflowX: "auto", color: "#93c5fd", marginTop: "0.9rem", whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
                     <code>{topic.code}</code>
                   </pre>
                 )}
@@ -869,13 +869,13 @@ function TopicList({ topics, sectionId, sectionColor, openTopics, toggleTopic })
                       <thead>
                         <tr>
                           {topic.table.headers.map((h, hi) => (
-                            <th key={hi} style={{ background: "#0f172a", color: "#94a3b8", padding: "0.55rem 0.85rem", textAlign: "left", fontWeight: 600, fontSize: "0.78rem", borderBottom: "1px solid #334155" }}>{h}</th>
+                            <th key={hi} style={{ background: darkMode ? "#0f172a" : "#ffffff", color: darkMode ? "#94a3b8" : "#475569", padding: "0.55rem 0.85rem", textAlign: "left", fontWeight: 600, fontSize: "0.78rem", borderBottom: darkMode ? "1px solid #334155" : "1px solid #e2e8f0" }}>{h}</th>
                           ))}
                         </tr>
                       </thead>
                       <tbody>
                         {topic.table.rows.map((row, ri) => (
-                          <tr key={ri} style={{ borderBottom: "1px solid #1e293b" }}>
+                          <tr key={ri} style={{ borderBottom: darkMode ? "1px solid #1e293b" : "1px solid #e2e8f0" }}>
                             {row.map((cell, ci) => (
                               <td key={ci} style={{ padding: "0.55rem 0.85rem", color: ci === 0 ? "#e2e8f0" : "#94a3b8", verticalAlign: "top" }}>{cell}</td>
                             ))}
@@ -887,7 +887,7 @@ function TopicList({ topics, sectionId, sectionColor, openTopics, toggleTopic })
                 )}
 
                 {topic.tip && (
-                  <div style={{ marginTop: "0.9rem", padding: "0.65rem 0.9rem", background: "#0f172a", border: `1px solid ${sectionColor}44`, borderLeft: `3px solid ${sectionColor}`, borderRadius: 6, fontSize: "0.82rem", color: "#94a3b8", lineHeight: 1.6 }}>
+                  <div style={{ marginTop: "0.9rem", padding: "0.65rem 0.9rem", background: darkMode ? "#0f172a" : "#ffffff", border: `1px solid ${sectionColor}44`, borderLeft: `3px solid ${sectionColor}`, borderRadius: 6, fontSize: "0.82rem", color: darkMode ? "#94a3b8" : "#475569", lineHeight: 1.6 }}>
                     <span style={{ color: sectionColor, fontWeight: 700 }}>Tip: </span>{topic.tip}
                   </div>
                 )}
