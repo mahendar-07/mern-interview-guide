@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const sections = [
+export const sections = [
   {
     id: "intro",
     label: "01 — What is MongoDB?",

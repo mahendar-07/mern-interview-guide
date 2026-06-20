@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const sections = [
+export const sections = [
   {
     id: "foundations",
     label: "01 — Foundations",
