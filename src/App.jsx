@@ -2,11 +2,13 @@ import { useState } from "react";
 import ReactGuide   from "./react-interview-guide.jsx";
 import ExpressGuide from "./express-interview-guide.jsx";
 import MongoGuide   from "./mongodb-interview-guide.jsx";
+import NodeGuide    from "./nodejs-interview-guide.jsx";
 
 const tabs = [
-  { id: "react",   label: "⚛️  React.js",   color: "#6366f1" },
-  { id: "express", label: "🚀  Express.js",  color: "#10b981" },
-  { id: "mongo",   label: "🍃  MongoDB",     color: "#16a34a" },
+  { id: "react",   label: "⚛️  React",    color: "#6366f1" },
+  { id: "express", label: "🚀  Express",  color: "#10b981" },
+  { id: "mongo",   label: "🍃  MongoDB",  color: "#16a34a" },
+  { id: "node",    label: "🟨  Node.js",  color: "#f59e0b" },
 ];
 
 export default function App() {
@@ -17,26 +19,27 @@ export default function App() {
       {/* Tab Bar */}
       <div style={{
         display: "flex",
-        gap: "0.5rem",
+        gap: "0.25rem",
         padding: "1rem 1.5rem 0",
         borderBottom: "1px solid #1e293b",
         background: "#0a0f1e",
         position: "sticky",
         top: 0,
         zIndex: 100,
+        flexWrap: "wrap",
       }}>
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActive(tab.id)}
             style={{
-              padding: "0.55rem 1.4rem",
+              padding: "0.55rem 1.2rem",
               borderRadius: "8px 8px 0 0",
               border: "none",
               background: active === tab.id ? "#0f172a" : "transparent",
               color: active === tab.id ? tab.color : "#475569",
               fontWeight: active === tab.id ? 700 : 400,
-              fontSize: "0.9rem",
+              fontSize: "0.88rem",
               cursor: "pointer",
               borderBottom: active === tab.id ? `2px solid ${tab.color}` : "2px solid transparent",
               transition: "all 0.15s",
@@ -52,6 +55,7 @@ export default function App() {
         {active === "react"   && <ReactGuide />}
         {active === "express" && <ExpressGuide />}
         {active === "mongo"   && <MongoGuide />}
+        {active === "node"    && <NodeGuide />}
       </div>
     </div>
   );
